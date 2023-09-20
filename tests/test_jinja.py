@@ -16,7 +16,7 @@ def cli():
 {% for command in commands %}
 @click.command(name='{{ command.name }}')
 {% for option in command.options %}
-@click.option('--{{ option.name }}', type={{ option.type }}, 
+@click.option('--{{ option.name }}', type={{ option.type }},
 required={{ option.required }},
 help='{{ option.help }}')
 {% endfor %}

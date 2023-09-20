@@ -1,0 +1,23 @@
+import click
+
+@click.group()
+def cli():
+    pass
+
+{% for command in commands %}
+@click.command(name='{{ command.name }}')
+{% for option in command.options %}
+@click.option('--{{ option.long }}', '-{{ option.short }}', type={{ option.type }}, required={{ option.required }}, help='{{ option.description }}')
+{% endfor %}
+{% for argument in command.arguments %}
+@click.argument('{{ argument.name }}', type={{ argument.type }}, required={{ argument.required }})
+{% endfor %}
+def {{ command.name }}({% for argument in command.arguments %}{{ argument.name }},{% endfor %}{% for option in command.options %}{{ option.long }},{% endfor %}, **kwargs):
+    """{{ command.description }}"""
+    click.echo('Command {{ command.name }} executed.')
+
+cli.add_command({{ command.name }})
+{% endfor %}
+
+if __name__ == '__main__':
+    cli()
